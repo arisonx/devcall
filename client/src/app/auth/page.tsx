@@ -212,10 +212,10 @@ export function Home() {
               {!loading ? (
                 <Button
                   type="submit"
-                  className="w-[20rem] p-5 flex gap-2 bg-bluedarkprimary border-2 border-grayborder"
+                  className="w-[20rem] text-white p-5 flex gap-2  border-2 border-grayborder"
                 >
                   Entrar
-                  <PiArrowRightFill className="text-xl" />
+                  <PiArrowRightFill className="text-xl text-white" />
                 </Button>
               ) : (
                 <Button disabled>
