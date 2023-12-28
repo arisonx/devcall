@@ -26,6 +26,9 @@ module.exports = {
         bluedark: "#03010b",
         bluedarkprimary:"#00050E",
         grayborder:"#212529",
+        blueviolet:"#7B61FF",
+        bluedarkbg:"#040311",
+        coffe:"#BAB3B3",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
