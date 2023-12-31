@@ -1,4 +1,3 @@
-import {Home} from './auth/page'
-
+import { Home } from './auth/page';
 
 export default Home;
