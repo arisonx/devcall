@@ -10,6 +10,7 @@ datasource db {
 
 
 model User{
+  @@map("users")
   id String @id @default(uuid())
   name String  @db.VarChar(50)
   
