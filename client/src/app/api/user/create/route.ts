@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   });
 
   cookies().set({
-   name: 'devcall:auth',
+   name: 'devcall_auth',
    value: token,
    httpOnly: true,
    path: '/',
