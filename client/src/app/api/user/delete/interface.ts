@@ -1,3 +1,3 @@
 export interface UserDataDelete {
-    id: string;
+ id: string;
 }
