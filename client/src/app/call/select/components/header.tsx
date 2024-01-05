@@ -34,7 +34,9 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import { DeleteUser } from '../../../actions/deleteUser';
 import { useState } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-
+import { useRouter } from 'next/navigation';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 interface IHeaderProps {
  username: string;
 }
@@ -42,6 +44,8 @@ interface IHeaderProps {
 export const Header = ({ username }: IHeaderProps) => {
  const [requestError, setRequestError] = useState(false);
  const [buttonLogoutLoading, setButtonLogoutLoading] = useState(false);
+
+ const router = useRouter();
 
  const FormSchema = z.object({
   username: z.string().min(2, {
@@ -62,13 +66,27 @@ export const Header = ({ username }: IHeaderProps) => {
 
  const logout = async () => {
   setButtonLogoutLoading(true);
-  await DeleteUser();
+
+  const deleteUser = await DeleteUser();
+
+  if (deleteUser) {
+   setButtonLogoutLoading(!buttonLogoutLoading);
+   router.push('/', {
+    scroll: true,
+   });
+  } else {
+   setButtonLogoutLoading(false);
+   setRequestError(true);
+   setTimeout(() => {
+    setRequestError(false);
+   }, 2500);
+  }
  };
 
  return (
   <header className='flex w-full justify-between px-8 py-4'>
    {buttonLogoutLoading === true ? (
-    <Button disabled>
+    <Button disabled className='flex items-center gap-4'>
      <AiOutlineLoading3Quarters className='w-30 flex animate-spin items-center' />
      Please wait
     </Button>
@@ -184,6 +202,19 @@ export const Header = ({ username }: IHeaderProps) => {
      </Dialog>
     </DropdownMenuContent>
    </DropdownMenu>
+
+   {requestError === true && (
+    <Alert
+     variant='destructive'
+     className='absolute right-[15%] top-40 h-20 w-[70%] bg-bluedark'
+    >
+     <AlertCircle className='h-4 w-4' />
+     <AlertTitle className='text-1xl font-bold'>Erro</AlertTitle>
+     <AlertDescription className='text-[1rem]'>
+      erro, tente novamente
+     </AlertDescription>
+    </Alert>
+   )}
   </header>
  );
 };
