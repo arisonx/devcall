@@ -5,7 +5,7 @@ interface IJwtPayload {
  id: string;
 }
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
  const authorizationHeader = request.headers.get('authorization');
 
  if (!authorizationHeader) {
@@ -30,22 +30,28 @@ export async function POST(request: Request) {
    return new Response(userExists.name, {
     status: 200,
    });
-  } else {
+  } 
+  else {
    return new Response('', {
     status: 404,
     statusText: 'User not found',
    });
   }
  } catch (err: any) {
-  if (err.message === 'invalid token') {
+
+
+  if (err.message === 'jwt malformed') {
    return new Response(err.message, {
     status: 400,
     statusText: 'Invalid token',
    });
+  } 
+  
+  else {
+   return new Response('', {
+    status: 500,
+    statusText: 'Internal Server Error',
+   });
   }
-  return new Response('', {
-   status: 500,
-   statusText: 'Internal Server Error',
-  });
  }
 }
