@@ -46,7 +46,7 @@ export async function DELETE(request: Request) {
    });
   }
  } catch (err: any) {
-  if (err.message === 'invalid token') {
+  if (err.message === 'jwt malformed') {
    return new Response(err.message, {
     status: 400,
     statusText: 'Invalid token',
