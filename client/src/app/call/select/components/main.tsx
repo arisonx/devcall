@@ -7,8 +7,24 @@ export function Main() {
   <div className='flex h-full w-full flex-col items-center gap-8 py-8'>
    <div className='flex h-[350px] w-[500px] flex-col items-center rounded-2xl border-2 border-blueborder p-8'>
     <div className='flex h-full w-full items-center justify-center gap-4'>
-     <Image src='/man.svg' alt='homem' width={200} height={200} />
-     <Image src='/woman.svg' alt='mulher' width={200} height={200} />
+     <Image
+      quality={100}
+      blurDataURL='/woman.svg'
+      placeholder='blur'
+      src='/man.svg'
+      alt='homem'
+      width={200}
+      height={200}
+     />
+     <Image
+      quality={100}
+      blurDataURL='/woman.svg'
+      placeholder='blur'
+      src='/woman.svg'
+      alt='mulher'
+      width={200}
+      height={200}
+     />
     </div>
 
     <Button
