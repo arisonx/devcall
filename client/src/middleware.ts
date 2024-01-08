@@ -1,31 +1,35 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
-import { verify } from 'jsonwebtoken';
-
-interface IJwtPayload {
- id: string;
-}
 
 export async function middleware(request: NextRequest) {
  const token = request.cookies.get('devcall_auth');
- const secret = process.env.JWT_SECRET as string;
-
- const url = request.nextUrl.clone();
- 
+ const mainPath = process.env.NEXT_PUBLIC_AUTH_CLIENT_URL as string;
+ const url = new URL(mainPath);
+ const apiUrl = process.env.NEXT_PUBLIC_API_URL as string;
+ const pathUrl = `${apiUrl}/user/auth/tokenvalidation`;
 
  if (!token) {
   return NextResponse.redirect(url.href);
- } 
+ } else {
   try {
-   const { id } = verify(token.value, secret) as IJwtPayload;
-   console.log("kkakakakakakakakakakak"); 
-  } catch (err: any) {
-   if (err.message === 'jwt malformed') {
-    return NextResponse.redirect(url.href);
-   }
-  }
-}
+   const checkToken = await fetch(pathUrl, {
+    method: 'POST',
+    headers: {
+     "Authorization": `Bearer ${token.value}`,
+    },
+   });
 
+   if (checkToken.status !== 200) {
+    console.log(checkToken.status)
+    return NextResponse.redirect(url.href);
+   } else {
+    NextResponse.next();
+   }
+  } catch (err: any) {
+   return NextResponse.redirect(url.href);
+  }
+ }
+}
 export const config = {
  matcher: '/call/:path*',
 };
