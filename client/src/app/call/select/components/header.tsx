@@ -37,6 +37,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 interface IHeaderProps {
  username: string;
 }
@@ -44,6 +45,7 @@ interface IHeaderProps {
 export const Header = ({ username }: IHeaderProps) => {
  const [requestError, setRequestError] = useState(false);
  const [buttonLogoutLoading, setButtonLogoutLoading] = useState(false);
+ const [avatar, setAvatar] = useState('');
 
  const router = useRouter();
 
@@ -184,6 +186,11 @@ export const Header = ({ username }: IHeaderProps) => {
                  '
                  name='image'
                  accept='image/*'
+                 onChange={(event) => {
+                  if (event.target.files) {
+                   setAvatar(URL.createObjectURL(event.target.files[0]));
+                  }
+                 }}
                 />
                </div>
               </div>
@@ -193,6 +200,15 @@ export const Header = ({ username }: IHeaderProps) => {
            </FormItem>
           )}
          />
+         {avatar ? (
+          <Avatar>
+           <AvatarImage src={avatar} alt='@shadcn' />
+           <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+         ) : (
+          <RxAvatar className='mb-4 h-10 w-10 text-bluedark' />
+         )}
+
          <DialogFooter className='pt-4'>
           <Button type='submit'>Salvar Alterações</Button>
          </DialogFooter>
