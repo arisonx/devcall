@@ -1,5 +1,4 @@
 import { prisma } from '../../../../lib/prisma/prisma';
-
 import { verify } from 'jsonwebtoken';
 
 interface IJwtPayload {

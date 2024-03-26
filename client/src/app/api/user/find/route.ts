@@ -30,24 +30,19 @@ export async function GET(request: Request) {
    return new Response(userExists.name, {
     status: 200,
    });
-  } 
-  else {
+  } else {
    return new Response('', {
     status: 404,
     statusText: 'User not found',
    });
   }
  } catch (err: any) {
-
-
   if (err.message === 'jwt malformed') {
    return new Response(err.message, {
     status: 400,
     statusText: 'Invalid token',
    });
-  } 
-  
-  else {
+  } else {
    return new Response('', {
     status: 500,
     statusText: 'Internal Server Error',

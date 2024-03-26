@@ -16,6 +16,7 @@ export function Main() {
       width={200}
       height={200}
      />
+
      <Image
       quality={100}
       blurDataURL='/woman.svg'
