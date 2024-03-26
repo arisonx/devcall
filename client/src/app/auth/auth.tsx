@@ -22,6 +22,8 @@ import {
 import { AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { RxAvatar } from 'react-icons/rx';
+import { signIn, signOut } from 'next-auth/react';
+
 import { useRouter } from 'next/navigation';
 
 export function Home() {
@@ -113,12 +115,15 @@ export function Home() {
    </header>
 
    <main className='h-[50%]'>
-    <Form {...form}>
+    {/*  <Form {...form}>
      <form
       onSubmit={form.handleSubmit(onSubmit)}
       className='flex w-[100%] flex-col items-center gap-12'
-     >
-      <FormField
+     > */}
+
+    {/* !---Nome area---! */}
+
+    {/* <FormField
        control={form.control}
        name='username'
        render={({ field }) => (
@@ -136,9 +141,10 @@ export function Home() {
          <FormMessage />
         </FormItem>
        )}
-      />
+      /> */}
 
-      <FormField
+    {/* !---- image profile ---! */}
+    {/*  <FormField
        control={form.control}
        name='defaultAvatar'
        render={({ field }) => (
@@ -201,8 +207,10 @@ export function Home() {
          <FormMessage />
         </FormItem>
        )}
-      />
-      <div className='flex w-[100%] items-center justify-center'>
+      /> */}
+
+    {/* !---SignInArea--- */}
+    {/* <div className='flex w-[100%] items-center justify-center'>
        {!loading ? (
         <Button
          type='submit'
@@ -217,15 +225,14 @@ export function Home() {
          Please wait
         </Button>
        )}
-      </div>
-     </form>
-    </Form>
+      </div> */}
+    {/* </form>
+    </Form> */}
 
     <div className='ma-0 mx-auto mt-16 flex w-[100%] flex-col items-center'>
-     <h2 className='text-center text-white'>OU</h2>
-     <Separator className='mb-4 mt-6 w-80 bg-grayborder' />
+     <h2 className='text-center text-white'>Entre com sua conta</h2>
 
-     <div className='mt-4 flex items-center gap-4'>
+     <div className='mt-8 flex items-center gap-4 rounded-lg border-[0.1px] border-blue-950 px-20 py-10'>
       <Button variant='link'>
        <img
         src='googlelogo.svg'
@@ -233,7 +240,15 @@ export function Home() {
         alt='logo colorida do google'
        />
       </Button>
-      <Button variant='link'>
+      <Button
+       variant='link'
+       onClick={() => {
+        signIn('github', {
+         redirect: true,
+         callbackUrl: '/call/select',
+        });
+       }}
+      >
        <img
         src='githublogo.svg'
         className='w-10'
@@ -250,7 +265,7 @@ export function Home() {
      </div>
     </div>
 
-    {dataError && (
+    {/*   {dataError && (
      <Alert
       variant='destructive'
       className='absolute right-40 top-40 h-20 w-[70%] bg-bluedark'
@@ -261,9 +276,9 @@ export function Home() {
        faça o upload de uma foto de perfil ou selecione a padrão
       </AlertDescription>
      </Alert>
-    )}
+    )} */}
 
-    {serverError && (
+    {/* {serverError && (
      <Alert
       variant='destructive'
       className='absolute right-[15%] top-40 h-20 w-[70%] bg-bluedark'
@@ -274,7 +289,7 @@ export function Home() {
        erro, tente novamente
       </AlertDescription>
      </Alert>
-    )}
+    )} */}
    </main>
   </div>
  );

@@ -38,6 +38,9 @@ import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { signOut } from 'next-auth/react';
+import { SessionData } from '../components/session/user';
+
 interface IHeaderProps {
  username: string;
 }
@@ -66,7 +69,7 @@ export const Header = ({ username }: IHeaderProps) => {
 
  async function onSubmit(data: z.infer<typeof FormSchema>) {}
 
- const logout = async () => {
+ /* const logout = async () => {
   setButtonLogoutLoading(true);
 
   const deleteUser = await DeleteUser();
@@ -83,7 +86,7 @@ export const Header = ({ username }: IHeaderProps) => {
     setRequestError(false);
    }, 2500);
   }
- };
+ }; */
 
  return (
   <header className='flex w-full justify-between px-8 py-4'>
@@ -99,7 +102,12 @@ export const Header = ({ username }: IHeaderProps) => {
     text-lg
     font-semibold text-white
     '
-     onClick={logout}
+     onClick={() => {
+      signOut({
+       redirect: true,
+       callbackUrl: '/',
+      });
+     }}
     >
      <CiLogout size={23} />
      Sair
@@ -108,8 +116,8 @@ export const Header = ({ username }: IHeaderProps) => {
 
    <DropdownMenu>
     <DropdownMenuTrigger className='flex items-center gap-4 rounded-lg border-[1px] border-blueborder bg-bluedarkbg px-4 py-2 text-[1.1rem] font-semibold text-white'>
-     arisonreis
-     <RxAvatar className='text-[1.6rem] font-bold' />
+     <SessionData data='image' />
+
      <IoMdArrowDropdown className='text-blue-400' />
     </DropdownMenuTrigger>
     <DropdownMenuContent className='mt-[1px] border-[1px]'>
