@@ -117,6 +117,7 @@ export const Header = ({ username }: IHeaderProps) => {
    <DropdownMenu>
     <DropdownMenuTrigger className='flex items-center gap-4 rounded-lg border-[1px] border-blueborder bg-bluedarkbg px-4 py-2 text-[1.1rem] font-semibold text-white'>
      <SessionData data='image' />
+     <SessionData data='name'/>
 
      <IoMdArrowDropdown className='text-blue-400' />
     </DropdownMenuTrigger>
