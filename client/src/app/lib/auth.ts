@@ -6,6 +6,9 @@ export const authOptions: AuthOptions = {
   GithubProvider({
    clientId: process.env.GITHUB_ID as string,
    clientSecret: process.env.GITHUB_SECRET as string,
+   httpOptions:{
+    timeout: 20000,
+   }
   }),
  ],
  session: {
@@ -13,23 +16,23 @@ export const authOptions: AuthOptions = {
   strategy: 'jwt',
  },
  jwt: {
-  maxAge: 30 * 24 * 60 * 60, // 30 days,$
+  maxAge: 30 * 24 * 60 * 60, // 30 days,
  },
  cookies: {
   sessionToken: {
    name: `session`,
    options: {
     httpOnly: true,
-    sameSite: 'lax',
-    path: '/',
     secure: true,
+    sameSite: "lax",
+    path: '/',
    },
   },
  },
  secret: process.env.NEXTAUTH_SECRET,
  pages: {
   signIn: '/',
-  error: 'signin',
+  error: '/',
  },
 
  events: {

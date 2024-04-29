@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { IoChatbubblesOutline, IoVideocamOutline } from 'react-icons/io5';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function Main() {
  return (
@@ -28,23 +29,23 @@ export function Main() {
      />
     </div>
 
-    <Button
-     variant={'outline'}
-     className='flex items-center gap-4 border-[1px] border-blueborder bg-transparent text-white'
+    <Link
+     href='/call/chat'
+     className='flex items-center gap-4 px-4 py-2 rounded-md border-[1px] border-blueborder bg-transparent text-white'
     >
      VIDEO CALL
      <IoVideocamOutline />
-    </Button>
+    </Link>
    </div>
 
    <div className='flex h-[350px] w-[500px] items-center justify-center gap-6 rounded-2xl border-2 border-blueborder p-4'>
-    <Button
-     variant={'outline'}
-     className='flex items-center gap-4 border-[1px] border-blueborder bg-transparent text-white'
+    <Link
+     href='/call/chat'
+     className='flex items-center gap-4 px-4 py-2 rounded-md border-[1px] border-blueborder bg-transparent text-white'
     >
      CHAT
      <IoChatbubblesOutline />
-    </Button>
+    </Link>
    </div>
   </div>
  );
