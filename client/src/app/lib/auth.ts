@@ -1,14 +1,16 @@
 import { AuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
 import { cookies } from 'next/headers';
 export const authOptions: AuthOptions = {
  providers: [
   GithubProvider({
    clientId: process.env.GITHUB_ID as string,
    clientSecret: process.env.GITHUB_SECRET as string,
-   httpOptions:{
-    timeout: 20000,
-   }
+  }),
+  GoogleProvider({
+   clientId: process.env.GOOGLE_ID as string,
+   clientSecret: process.env.GOOGLE_SECRET as string,
   }),
  ],
  session: {
@@ -24,7 +26,7 @@ export const authOptions: AuthOptions = {
    options: {
     httpOnly: true,
     secure: true,
-    sameSite: "lax",
+    sameSite: 'lax',
     path: '/',
    },
   },
@@ -37,7 +39,7 @@ export const authOptions: AuthOptions = {
 
  events: {
   signOut() {
-   cookies().delete('session')
+   cookies().delete('session');
   },
  },
 };

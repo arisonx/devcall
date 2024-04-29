@@ -233,7 +233,14 @@ export function Home() {
      <h2 className='text-center text-white'>Entre com sua conta</h2>
 
      <div className='mt-8 flex items-center gap-4 rounded-lg border-[0.1px] border-blue-950 px-20 py-10'>
-      <Button variant='link'>
+      <Button
+       variant='link'
+       onClick={() => {
+        signIn('google', {
+         callbackUrl: 'http://localhost:3000/call/select',
+        });
+       }}
+      >
        <img
         src='googlelogo.svg'
         className='w-10'
