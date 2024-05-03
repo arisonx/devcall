@@ -4,23 +4,26 @@ import {
  WebSocketGateway,
  MessageBroadcastType,
 } from './type';
-
+import {  useWebSocketStore} from '@/globalstate/currentSocketStore';
 export class SocketGateway implements WebSocketGateway {
  static socket: Socket;
 
  public startConnection({ autoConnect }: SocketInitializationType) {
-   SocketGateway.socket = io('http://localhost:4000', {
+  SocketGateway.socket = io('http://localhost:4000', {
    autoConnect: autoConnect,
-  })
+  });
  }
 
  public emitMessage(message: string) {
   SocketGateway.socket.emit('message', message);
  }
 
- public getMessagesBroadcast() {
-    SocketGateway.socket?.on("broadcast", (data:MessageBroadcastType) =>{
-        console.log(data)
-    })
+ public listenBroadcast() {
+  const messagesMap: Map<string, string> = new Map();
+  SocketGateway.socket?.on('broadcast', (data: MessageBroadcastType) => {
+    console.log('broadcast event listening')
+   useWebSocketStore().getState().setMessageBroadcast(data);
+  });
+  return messagesMap;
  }
 }
