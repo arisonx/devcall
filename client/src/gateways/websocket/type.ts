@@ -10,5 +10,5 @@ export type SocketInitializationType = {
 export interface WebSocketGateway {
  startConnection:({autoConnect}:SocketInitializationType)=> void;
  emitMessage: (message: string) => void;
- getMessagesBroadcast: () => void
+ listenBroadcast: () => Map<string, string>;
 }
