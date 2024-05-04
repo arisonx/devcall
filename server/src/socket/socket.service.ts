@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Socket } from 'socket.io';
 
+
 @Injectable()
 export class SocketService {
   private readonly connectedClients: Map<string, boolean> = new Map();
@@ -13,11 +14,11 @@ export class SocketService {
     console.log(this.connectedClients);
   }
 
-  handleMessageBroadcast(socket: Socket, payload: string): void {
+  handleMessageBroadcast(socket: Socket, payload: string) {
+    console.log(payload)
     socket.emit('broadcast', {
       from: socket.id,
-      payload: payload
+      payload: payload,
     });
-    console.log(payload);
   }
 }

@@ -30,7 +30,7 @@ export function Main() {
     </div>
 
     <Link
-     href='/call/chat'
+     href='/call/video'
      className='flex items-center gap-4 px-4 py-2 rounded-md border-[1px] border-blueborder bg-transparent text-white'
     >
      VIDEO CALL
