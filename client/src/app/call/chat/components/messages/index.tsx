@@ -1,31 +1,15 @@
-import { useEffect, useState } from 'react';
-import { SocketGateway } from '@/gateways/websocket';
+'use client';
 
-
-interface IMessagesBroadcast {
- currentSocket: SocketGateway;
+interface IMessage {
+ from: string;
+ payload: string;
 }
 
-export function Messages({ currentSocket }: IMessagesBroadcast) {
- const [messageBroadcast, setMessageBroadcast] = useState<
-  Map<string, string> | undefined
- >();
-
-
- useEffect(() => {
-  currentSocket?.listenBroadcast();
- }, []);
-
+export function Messages({ from, payload }: IMessage) {
  return (
   <div>
-   {messageBroadcast &&
-    Array.from(messageBroadcast).map((item, index) => {
-     return (
-      <div key={index}>
-       <p className=''> message received from {item}</p>
-      </div>
-     );
-    })}
+   <p className='text-white'>Message received from {from}</p>
+   <p className='text-white'>Message: {payload}</p>
   </div>
  );
 }
