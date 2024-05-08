@@ -5,7 +5,7 @@ import { Header } from './components/header';
 export default async function NavigationMenuDemo() {
  return (
   <div className='align-center flex h-full w-full flex-col'>
-   <Header username='arisonreis' />
+   <Header />
 
    <Main />
   </div>
