@@ -10,16 +10,16 @@ export function SessionData({ data }: props) {
  const session = useSession();
 
  return (
-  <p>
-   {data === 'name' && session.data?.user?.name}
+  <div>
+   {data === 'name' && <p className='text-slate-200 text-sm'>{session.data?.user?.name}</p>}
    {data === 'image' && (
-    <Avatar className='h-12 w-12 border-[2px] border-b-blueviolet border-l-yellow-300  border-r-emerald-700 border-t-orange-800'>
+    <Avatar className='h-8 w-8 border-[2px] border-b-blueviolet border-l-yellow-300  border-r-emerald-700 border-t-orange-800'>
      <Suspense fallback={<p className='text-white'>carregando....</p>}>
       <AvatarImage src={session.data?.user?.image as string} />
      </Suspense>
     </Avatar>
    )}
    {data === 'email' && session.data?.user?.email}
-  </p>
+  </div>
  );
 }

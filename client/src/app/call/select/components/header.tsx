@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
 import {
  Form,
  FormControl,
@@ -41,15 +42,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { signOut } from 'next-auth/react';
 import { SessionData } from '../components/session/user';
 
-interface IHeaderProps {
- username: string;
-}
-
-export const Header = ({ username }: IHeaderProps) => {
+export const Header = () => {
  const [requestError, setRequestError] = useState(false);
  const [buttonLogoutLoading, setButtonLogoutLoading] = useState(false);
  const [avatar, setAvatar] = useState('');
-
+ 
  const router = useRouter();
 
  const FormSchema = z.object({
@@ -69,25 +66,6 @@ export const Header = ({ username }: IHeaderProps) => {
 
  async function onSubmit(data: z.infer<typeof FormSchema>) {}
 
- /* const logout = async () => {
-  setButtonLogoutLoading(true);
-
-  const deleteUser = await DeleteUser();
-
-  if (deleteUser) {
-   setButtonLogoutLoading(!buttonLogoutLoading);
-   router.push('/', {
-    scroll: true,
-   });
-  } else {
-   setButtonLogoutLoading(false);
-   setRequestError(true);
-   setTimeout(() => {
-    setRequestError(false);
-   }, 2500);
-  }
- }; */
-
  return (
   <header className='flex w-full justify-between px-8 py-4'>
    {buttonLogoutLoading === true ? (
@@ -98,8 +76,8 @@ export const Header = ({ username }: IHeaderProps) => {
    ) : (
     <Button
      className='w-30 flex items-center 
-    gap-4 rounded-md border-[1px] border-blueborder bg-bluedarkbg px-4
-    text-lg
+    gap-2 rounded-md border-[1px] border-blueborder bg-bluedarkbg px-4
+    text-base
     font-semibold text-white
     '
      onClick={() => {
@@ -109,16 +87,15 @@ export const Header = ({ username }: IHeaderProps) => {
       });
      }}
     >
-     <CiLogout size={23} />
+     <CiLogout size={23}/>
      Sair
     </Button>
    )}
 
    <DropdownMenu>
-    <DropdownMenuTrigger className='flex items-center gap-4 rounded-lg border-[1px] border-blueborder bg-bluedarkbg px-4 py-2 text-[1.1rem] font-semibold text-white'>
+    <DropdownMenuTrigger className='flex items-center gap-4 px-2 py-0 text-[1.1rem] font-semibold text-white'>
      <SessionData data='image' />
-     <SessionData data='name'/>
-
+     <SessionData data='name' />
      <IoMdArrowDropdown className='text-blue-400' />
     </DropdownMenuTrigger>
     <DropdownMenuContent className='mt-[1px] border-[1px]'>
