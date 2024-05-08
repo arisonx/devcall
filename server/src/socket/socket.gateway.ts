@@ -3,8 +3,9 @@ import {
   WebSocketServer,
   OnGatewayConnection,
   SubscribeMessage,
+  OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import { Socket } from 'socket.io';
+import { Socket, Server } from 'socket.io';
 import { SocketService } from './socket.service';
 
 @WebSocketGateway({
@@ -13,18 +14,27 @@ import { SocketService } from './socket.service';
     credentials: true,
   },
 })
-export class SocketGateway implements OnGatewayConnection {
+export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  private server: Socket;
+  private server: Server;
 
   constructor(private readonly socketService: SocketService) {}
 
-  handleConnection(socket: any, ...args: any[]) {
-    this.socketService.handle_connection(socket);
+  handleConnection(socket: Socket, ...args: any[]) {
+    this.socketService.handle_connection(socket, this.server);
+  }
+
+  handleDisconnect(socket: Socket, ...args: any[]) {
+    this.socketService.handleDisconectedClients(socket);
   }
 
   @SubscribeMessage('message')
   handleMessage(client: Socket, payload: string) {
     this.socketService.handleMessageBroadcast(client, payload);
+  }
+
+  @SubscribeMessage("typing")
+  handleTyping(client: Socket, username: string) {
+    this.socketService.handleTyping(client, username);
   }
 }
