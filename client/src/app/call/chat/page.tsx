@@ -15,15 +15,23 @@ export default function Chat() {
  };
 
  const [message, setMessage] = useState<string | undefined>();
- const [broadcastMessages, setBroadcastMessages] = useState<messagesT[]>([]);
+ const [messages, setMessages] = useState<messagesT[]>([]);
  const [isTyping, setIsTyping] = useState(false);
  const [userIsTyping, setUserIsTyping] = useState('');
+ const [usersConnectedCount, setUsersConnectedCount] = useState(0);
 
  const { data } = useSession();
  const socketRef = useRef<Socket>();
 
  const sendMessage = () => {
   socketRef.current?.emit('message', message as string);
+  setMessages((prev) => [
+   ...prev,
+   {
+    from: socketRef.current?.id as string,
+    payload: message as string,
+   },
+  ]);
  };
 
  const OnTypingEventEmitter = () => {
@@ -34,7 +42,12 @@ export default function Chat() {
   if (!socketRef.current) {
    socketRef.current = io('http://localhost:4000');
    socketRef.current?.on('message', (data: messagesT) => {
-    setBroadcastMessages((prevMessages) => [...prevMessages, data]);
+    console.log('received message:', data);
+    setMessages((prevMessages) => [...prevMessages, data]);
+   });
+
+   socketRef.current?.on('users', (data) => {
+    setUsersConnectedCount(data);
    });
 
    socketRef.current?.on('typing', (data: string) => {
@@ -45,20 +58,24 @@ export default function Chat() {
     }, 1000);
    });
   }
- }, [broadcastMessages]);
+ }, [messages]);
 
  return (
-  <div className='flex h-full w-full flex-col items-center justify-between gap-5 border-2 border-white'>
+  <div className='flex h-full w-full flex-col items-center justify-between gap-5'>
    <Header />
 
-   <ScrollArea className='flex h-full flex-col gap-4'>
-    {broadcastMessages.map((message, index) => (
+   <ScrollArea className='flex h-full w-full flex-col'>
+    {usersConnectedCount && (
+     <p className='text-red-400'>usuários conectados: {usersConnectedCount}</p>
+    )}
+
+    {messages.map((message, index) => (
      <Messages key={index} {...message} />
     ))}
    </ScrollArea>
 
    <div className='flex w-full justify-center py-4'>
-    <div className='h[10%] flex w-[50%] flex-col items-start'>
+    <div className='h[10%] flex flex-col items-center'>
      {isTyping && <Typing username={userIsTyping as string} />}
      <InputMessage
       TipyingEventEmitter={OnTypingEventEmitter}
