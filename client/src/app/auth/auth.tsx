@@ -22,7 +22,7 @@ import {
 import { AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { RxAvatar } from 'react-icons/rx';
-import { signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 import { useRouter } from 'next/navigation';
 
