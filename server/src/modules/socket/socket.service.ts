@@ -3,22 +3,20 @@ import { Server, Socket } from 'socket.io';
 
 @Injectable()
 export class SocketService {
-  private readonly connectedClients: Map<string, boolean> = new Map();
+  private readonly connectedClients: Map<string, string> = new Map();
 
   handle_connection(socket: Socket, serverSocket: Server): void {
     const client_id = socket.id;
-    this.connectedClients.set(client_id, socket.connected);
 
+    this.connectedClients.set(client_id, socket.id);
     socket.join('chatroom');
 
     const roomclients = serverSocket.sockets.adapter.rooms.get('chatroom');
 
-    console.log(roomclients);
+    socket.to('chatroom').emit('users', roomclients.size);
   }
 
-  handleMessageBroadcast(socket: Socket, payload: string) {
-    console.log(payload);
-
+  handleRoomMessage(socket: Socket, payload: string) {
     socket.to('chatroom').emit('message', {
       from: socket.id,
       payload: payload,
@@ -34,3 +32,5 @@ export class SocketService {
     socket.to('chatroom').emit('typing', username);
   }
 }
+
+

@@ -30,7 +30,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('message')
   handleMessage(client: Socket, payload: string) {
-    this.socketService.handleMessageBroadcast(client, payload);
+    this.socketService.handleRoomMessage(client, payload);
   }
 
   @SubscribeMessage("typing")
